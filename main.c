@@ -27,7 +27,7 @@ int main()
     printf("What do you want to do?\nTo view all item, Press 1.\nTo Add a new item, press 2.\nTo delete an item press 3\n");
     while (1)
     {
-        int x,price;
+        int x,price,idx;
         char arr[50];
         printf("\nEnter Your choice: ");
         scanf("%d",&x);
@@ -47,7 +47,8 @@ int main()
             case 3:
                 while (1)
                 {
-
+                    printf("Input the item index name: ");
+                    scanf("%d",&idx);
                     finditem(start->next);
                 }
                 break;
@@ -92,6 +93,9 @@ void finditem(Item* ptr, int x);
         if(ptr->index==x)
         {
             n=ptr->price;
+            printf("\nItem selected! Item name: ");
+            puts(ptr->name);
+            printf("\nItem Price: %d",ptr->price);
         }
     }
 }
