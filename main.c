@@ -88,7 +88,7 @@ void printitem(Item* ptr)
 void finditem(Item* ptr, int x);
 {
     int n;
-    while(ptr->next!=NULL)
+    while(ptr!=NULL)
     {
         if(ptr->index==x)
         {
