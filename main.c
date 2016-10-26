@@ -11,7 +11,9 @@ typedef struct node
 
 void additem(Item* ptr, char* name, int price);
 void printitem(Item* ptr);
-int i=1;
+int i,n;
+i=1;
+n=0;
 
 int main()
 {
@@ -87,15 +89,15 @@ void printitem(Item* ptr)
 
 void finditem(Item* ptr, int x);
 {
-    int n;
     while(ptr!=NULL)
     {
         if(ptr->index==x)
         {
-            n=ptr->price;
             printf("\nItem selected! Item name: ");
-            puts(ptr->name);
+            puts(ptr->name)0;
             printf("\nItem Price: %d",ptr->price);
+            n=n+(ptr->price);
+            printf("\nTotal Price: %d ",n);
         }
     }
 }
