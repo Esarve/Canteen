@@ -87,14 +87,14 @@ void printitem(Item* ptr)
     printitem(ptr->next);
 }
 
-void finditem(Item* ptr, int x);
+void finditem(Item* ptr, int x)
 {
     while(ptr!=NULL)
     {
         if(ptr->index==x)
         {
             printf("\nItem selected! Item name: ");
-            puts(ptr->name)0;
+            puts(ptr->name);
             printf("\nItem Price: %d",ptr->price);
             n=n+(ptr->price);
             printf("\nTotal Price: %d ",n);
