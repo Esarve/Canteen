@@ -47,12 +47,9 @@ int main()
                 additem(start,arr,price);
                 break;
             case 3:
-                while (1)
-                {
-                    printf("Input the item index name: ");
-                    scanf("%d",&idx);
-                    finditem(start->next);
-                }
+                printf("Input the item index number: ");
+                scanf("%d",&idx);
+                deleteitem(start,idx);
                 break;
         }
     }
@@ -86,18 +83,14 @@ void printitem(Item* ptr)
     printf("Item Price: %d\n",ptr->price);
     printitem(ptr->next);
 }
-
-void finditem(Item* ptr, int x)
+void deleteitem(Item* ptr, int index)
 {
-    while(ptr!=NULL)
+    Item* temp;
+    while (ptr->next!=NULL && (ptr->next)->index!=index)
     {
-        if(ptr->index==x)
-        {
-            printf("\nItem selected! Item name: ");
-            puts(ptr->name);
-            printf("\nItem Price: %d",ptr->price);
-            n=n+(ptr->price);
-            printf("\nTotal Price: %d ",n);
-        }
+        ptr=ptr->next;
     }
+    temp=ptr->next;
+    ptr->next=temp->next;
+    free(temp);
 }
