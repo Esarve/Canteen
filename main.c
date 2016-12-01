@@ -1,17 +1,76 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-typedef struct node
+typedef struct nodeLL
 {
     int index;
-    char* name;
+    char name[20];
     int price;
-    struct node* next;
+    struct nodeLL* next;
 }Item;
+
+// Start of stack
+
+typedef struct nodeS
+{
+    int size;
+    int capasity;
+    Item** items;
+}stack;
 
 void additem(Item* ptr, char* name, int price);
 void printitem(Item* ptr);
-int i=1;
+void printitem2(Item* s);
+void order (Item* ptr);
+Item* finditem(Item* ptr, int x);
+void deleteitem(Item* ptr, int index);
+int price(Item* ptr, int q);
+
+stack* creatstack(int capasity)
+{
+    stack* s=(stack*)malloc(sizeof(stack));
+    s->items=(Item**)malloc(sizeof(s->items)*capasity);
+    s->size=0;
+    s->capasity=capasity;
+    return s;
+}
+
+void push(stack* s, Item* ptr)
+{
+    if (s->size==s->capasity)
+    {
+        printf("\nStack is Full");
+    }
+    s->items[s->size]= ptr;
+    s->size++;
+
+}
+
+
+void top(stack* s)
+{
+    if (s->size==0)
+    {
+        printf("\nStack is empty");
+    }
+    printitem2(s->items[s->size-1]);
+}
+
+void pop(stack* s)
+{
+    if (s->size==0)
+    {
+        printf("\nStack is empty");
+    }
+    s->size--;
+}
+
+//End of stack
+
+int i,n;
+i=1;
+n=0;
 
 int main()
 {
@@ -27,7 +86,7 @@ int main()
     printf("What do you want to do?\nTo view all item, Press 1.\nTo Add a new item, press 2.\nTo delete an item press 3\n");
     while (1)
     {
-        int x,price;
+        int x,price,idx;
         char arr[50];
         printf("\nEnter Your choice: ");
         scanf("%d",&x);
@@ -45,17 +104,19 @@ int main()
                 additem(start,arr,price);
                 break;
             case 3:
-                while (1)
-                {
-
-                    finditem(start->next);
-                }
+                printf("Input the item index number: ");
+                scanf("%d",&idx);
+                deleteitem(start,idx);
                 break;
+            case 4:
+                order(start);
+
+
         }
     }
 }
 
-void additem(Item* ptr, char* name, int price)
+void additem(Item* ptr, char name[], int price)
 {
     while(ptr->next!=NULL)
     {
@@ -65,7 +126,7 @@ void additem(Item* ptr, char* name, int price)
     ptr=ptr->next;
     ptr->index=i;
     i++;
-    ptr->name= name;
+    strcpy(ptr->name,name);
     ptr->price=price;
     ptr->next=NULL;
 }
@@ -74,6 +135,7 @@ void printitem(Item* ptr)
 {
     if (ptr==NULL)
     {
+        printf("\nNothing!");
         return;
     }
     printf("\n\n");
@@ -84,14 +146,78 @@ void printitem(Item* ptr)
     printitem(ptr->next);
 }
 
-void finditem(Item* ptr, int x);
+void printitem2(Item* ptr)
 {
-    int n;
-    while(ptr->next!=NULL)
+    if (ptr==NULL)
+    {
+        printf("\nNothing!");
+        return;
+    }
+    printf("\n\n");
+    printf("Item number: %d\n",ptr->index);
+    printf("Item name: ");
+    puts(ptr->name);
+}
+
+void order (Item* ptr)
+{
+    char c;
+    int itemnumber, quantity,total;
+    total=0;
+    Item* temp;
+    stack* s=creatstack(5);
+
+    printf("\nEnter 'x' when you are done ordering");
+    do {
+        scanf("%c",&c );
+        printf("\nEnter Item index number");
+        scanf("%d",&itemnumber );
+        temp=finditem(ptr,itemnumber);
+        push(s,temp);
+        printf("\nEnter Item quantity");
+        scanf("%d",&quantity);
+        total=total+price(temp, quantity);
+        getchar();
+    } while(c!='x');
+
+    while (s->size!=-1)
+    {
+        top(s);
+        pop(s);
+    }
+}
+
+Item* finditem(Item* ptr, int x)
+{
+    while(ptr!=NULL)
     {
         if(ptr->index==x)
         {
-            n=ptr->price;
+            return ptr;
+        }
+        else
+        {
+            ptr=ptr->next;
         }
     }
+    printf("\nNot foud!");
+}
+void deleteitem(Item* ptr, int index)
+{
+    Item* temp;
+    while (ptr->next!=NULL && (ptr->next)->index!=index)
+    {
+        ptr=ptr->next;
+    }
+    temp=ptr->next;
+    ptr->next=temp->next;
+    free(temp);
+
+}
+
+int price(Item* ptr, int q)
+{
+    int cprice;
+    cprice=ptr->price*q;
+    return cprice;
 }
