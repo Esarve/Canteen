@@ -83,7 +83,7 @@ int main()
     additem(start,input, 20);
     input="Cake";
     additem(start,input, 10);
-    printf("What do you want to do?\nTo view all item, Press 1.\nTo Add a new item, press 2.\nTo delete an item press 3\n");
+    printf("What do you want to do?\nTo view all item, Press 1.\nTo Add a new item, press 2.\nTo delete an item press 3\nTo order press 4");
     while (1)
     {
         int x,price,idx;
@@ -135,7 +135,7 @@ void printitem(Item* ptr)
 {
     if (ptr==NULL)
     {
-        printf("\nNothing!");
+        //printf("\nNothing!");
         return;
     }
     printf("\n\n");
@@ -167,24 +167,26 @@ void order (Item* ptr)
     Item* temp;
     stack* s=creatstack(5);
 
-    printf("\nEnter 'x' when you are done ordering");
-    do {
-        scanf("%c",&c );
-        printf("\nEnter Item index number");
+    printf("\nEnter 'y' to ordern and 'n' to finish order");
+    while(c!='n')
+    {
+        printf("\nEnter Item index number: ");
         scanf("%d",&itemnumber );
         temp=finditem(ptr,itemnumber);
         push(s,temp);
-        printf("\nEnter Item quantity");
+        printf("\nEnter Item quantity: ");
         scanf("%d",&quantity);
         total=total+price(temp, quantity);
         getchar();
-    } while(c!='x');
-
-    while (s->size!=-1)
+        printf("\nEnter your decission: ");
+        scanf("%c",&c );
+    }
+    while (s->size!=0)
     {
         top(s);
         pop(s);
     }
+    printf("\nTotal Price: %d",total);
 }
 
 Item* finditem(Item* ptr, int x)
@@ -217,7 +219,7 @@ void deleteitem(Item* ptr, int index)
 
 int price(Item* ptr, int q)
 {
-    int cprice;
+    int cprice=0;
     cprice=ptr->price*q;
     return cprice;
 }
